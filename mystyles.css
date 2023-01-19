@@ -1,7 +1,7 @@
 
 
 body{
-   background-color: #013135;
+   background-color: #000000;
    margin:0;
  }
 
@@ -20,7 +20,7 @@ body{
   height:35px;
   margin-left: 80px;
   margin-top: 10px;
-  background-color: #d5dee0;
+  background-color: white;
   border-radius: 100%;
   border: solid black 2px;
 }

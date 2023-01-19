@@ -1,5 +1,3 @@
-
-
 // global variables for canvas and context
 var game, canvas, ctx;
 window.onload = init;//  After the window has been loaded, go to init
@@ -19,8 +17,27 @@ function init(){
 function animate(){
   ctx.fillStyle = 'rgba(0,0,0,.05)'
   ctx.fillRect(0,0,canvas.width,canvas.height); 
-  game.update()
+  game.update();
   requestAnimationFrame(animate);
 }
 
   
+function randomNumber(min, max) { 
+  let rdm = Math.random() * (max - min) + min;
+  return rdm;
+} 
+
+function RGBToHex(r,g,b) {
+  r = r.toString(16);
+  g = g.toString(16);
+  b = b.toString(16);
+
+  if (r.length == 1)
+    r = "0" + r;
+  if (g.length == 1)
+    g = "0" + g;
+  if (b.length == 1)
+    b = "0" + b;
+
+  return "#" + r + g + b;
+}
