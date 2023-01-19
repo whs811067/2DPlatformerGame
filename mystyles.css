@@ -5,11 +5,11 @@ body{
    margin:0;
  }
 
-#wrapperDiv{
- height: 800px;
- width: 900px;
- margin:auto;
- margin-top: 20px;
+canvas{
+  background-color: white;
+  margin:auto;
+  margin-top: 20px;
+  margin-left: 20px;
 
 }
 

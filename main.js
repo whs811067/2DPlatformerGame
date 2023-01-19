@@ -30,3 +30,11 @@ function RGBToHex(r,g,b) {
 
   return "#" + r + g + b;
 }
+
+function getRandomColor() {
+  let r = Math.floor(randomNumber(0,255));
+  let g = Math.floor(randomNumber(0,255));
+  let b = Math.floor(randomNumber(0,255));
+  let color = RGBToHex(r, g, b);
+  return color;
+}
