@@ -1,49 +1,77 @@
-function Player(x, y, ctx) {
+function Player(x, y, ctx, playerAnims) {
     this.loc = new JSVector(x, y);
     this.vel = new JSVector(0, 0);
-    this.maxVel = 4;
-    this.acc = new JSVector(0.1, 0);
+    this.mass = 0.5;
+    this.terminalVelocity = this.mass * gravity;
+    this.maxVel = new JSVector(0.9, this.terminalVelocity);
     this.ctx = ctx;
     this.moving = {
         right: false,
-        left: false, 
+        left: false,
     }
+    this.friction = 0.02;
+    this.charIdleAnim = [playerAnims[charIdleIndex][0], playerAnims[charIdleIndex][1], playerAnims[charIdleIndex][2]];
+    this.charRunAnim = [playerAnims[charRunIndex][0], playerAnims[charRunIndex][1], playerAnims[charRunIndex][2], playerAnims[charRunIndex][3], playerAnims[charRunIndex][4], playerAnims[charRunIndex][5]];
+    this.charCurr = 0;
+    this.charAnimCurr = this.charIdleAnim;
+    this.currentImage = this.charAnimCurr[this.charCurr];
+    this.sizeMultiplier = 2;
 }
 
-Player.prototype.update = function() {
+Player.prototype.update = function () {
     if (this.moving.right) {
-        this.vel.add(this.acc);
+        this.vel.x = lerp(this.vel.x, this.maxVel.x, this.friction);
+        this.charAnimCurr = this.charRunAnim;
     } else {
         if (this.vel.x > 0) {
-            this.vel.sub(this.acc);
+            this.vel.x = lerp(this.vel.x, 0, this.friction);
+            this.charAnimCurr = this.charIdleAnim;
         }
     }
     if (this.moving.left) {
-        this.vel.sub(this.acc);
+        this.vel.x = lerp(this.vel.x, -this.maxVel.x, this.friction);
     } else {
         if (this.vel.x < 0) {
-            this.vel.add(this.acc);
+            this.vel.x = lerp(this.vel.x, 0, this.friction);
         }
     }
 
-    this.vel.limit(this.maxVel);
+
+
+    //limit on the x axis
+    if (this.vel.x >= this.maxVel.x) {
+        this.vel.x = this.maxVel.x;
+    }
+
+    //apply gravity
+    this.vel.y = lerp(this.vel.y, this.terminalVelocity, airResistance);
+
+    //apply velocity
     this.loc.add(this.vel);
-    
 }
 
-Player.prototype.render = function() {
-    this.ctx.beginPath();
-    this.ctx.arc(this.loc.x, this.loc.y, 10, 0, Math.PI * 2);
-    this.ctx.closePath();
-    this.ctx.fillStyle = "Black";
-    this.ctx.strokeStyle = getRandomColor();
-    this.ctx.fill();
-    this.ctx.stroke();
+Player.prototype.render = function () {
+    let ctx = this.ctx;
+
+    if (world.tick % world.tickInterval == 0) {
+        if (this.charCurr < this.charAnimCurr.length - 1) {
+            this.charCurr++;
+        } else {
+            this.charCurr = 0;
+        }
+    }
+
+    this.currentImage = this.charAnimCurr[this.charCurr];
+
+    if (this.currentImage == null) {
+        this.currentImage = this.charAnimCurr[0];
+    }
+    ctx.drawImage(this.currentImage, this.loc.x, this.loc.y - this.currentImage.height * this.sizeMultiplier, this.currentImage.width * this.sizeMultiplier, this.currentImage.height * this.sizeMultiplier);
 }
 
 
 
-Player.prototype.run = function() {
+Player.prototype.run = function () {
     this.update();
     this.render();
 }
