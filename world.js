@@ -89,9 +89,8 @@ World.prototype.run = function () {
     for (let i = 0; i < this.platforms.length; i++) {
         this.platforms[i].run();
     }
-    this.player.run();
-
-
+    
+    
     //this.cnvLoc.x += this.levelSpeed;
     if (this.isPreviewing) {
         if (this.previewForward) {
@@ -107,14 +106,15 @@ World.prototype.run = function () {
                 this.isPreviewing = false;
             }
         }
-
+        
     } else {
         this.lerpDestination = this.player.loc.x - this.playerDisplacement;
     }
     this.cnvLoc.x = lerp(this.cnvLoc.x, this.lerpDestination, this.cameraStiffness);
-
-    //this.ground.run();
-
+    
+    this.ground.run();
+    
+    this.player.run();  
     this.bg2.x = lerp(this.bg2.x, (this.player.loc.x / 2) - this.playerDisplacement, this.cameraStiffness);
     this.bg3.x = lerp(this.bg3.x, (this.player.loc.x / 1.5) - this.playerDisplacement, this.cameraStiffness);
 

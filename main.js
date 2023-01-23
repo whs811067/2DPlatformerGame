@@ -1,6 +1,6 @@
 //physical stuff
 let world;
-let gravity = 0;
+let gravity = 9.8;
 let airResistance = 0.02;
 
 //global assets & resource delcaration
@@ -12,6 +12,9 @@ let background3 = new Image();
 background1.src = "assets/background1.png";
 background2.src = "assets/background2.png";
 background3.src = "assets/background3.png";
+
+let platform = new Image();
+platform.src = "assets/platform.png"
 
 let charIdle1 = new Image();
 let charIdle2 = new Image();
@@ -37,9 +40,16 @@ charRun6.src = "assets/character/adventurer-run-05.png";
 let charRunImgs = [charRun1, charRun2, charRun3, charRun4, charRun5, charRun6];
 let charRunIndex = 1;
 
+let charSlide1 = new Image();
+let charSlide2 = new Image();
+charSlide1.src = "assets/character/adventurer-slide-00.png";
+charSlide2.src = "assets/character/adventurer-slide-01.png";
+let charSlideImgs = [charSlide1, charSlide2];
+let charSlideIndex = 2;
 
 
-let playerAnims = [charIdleImgs, charRunImgs];
+
+let playerAnims = [charIdleImgs, charRunImgs, charSlideImgs];
 
 //music
 //let backgroundMusic = new Audio('assets/scaryForest.mp3');
