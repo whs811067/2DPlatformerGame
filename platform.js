@@ -9,7 +9,6 @@ function Platform(x, y, w, h, clr, ctx) {
 Platform.prototype.checkCollisions = function () {
     if (world.player.loc.y > this.loc.y && world.player.loc.y < this.loc.y + this.height && world.player.loc.x > this.loc.x && world.player.loc.x < this.loc.x + this.width) {
         let endposx = this.loc.x + this.width;
-        //console.log("this.loc.x =  " + this.loc.x + "   this.loc.x other = " + endposx);
         world.player.isColliding = true;
     } else {
         world.player.isColliding = false;
@@ -28,6 +27,6 @@ Platform.prototype.render = function () {
 }
 
 Platform.prototype.run = function () {
-    this.checkCollisions();
+    //this.checkCollisions();
     this.render();
 }

@@ -13,7 +13,7 @@ function World() {
     this.groundThickness = 10;
 
     this.platforms = [];
-    this.loadPlatforms(50);
+    this.loadPlatforms(1);
     this.ground = new Platform(0, -this.groundThickness, this.dims.width, 30, "Blue", this.ctx);
     this.cnvLoc = new JSVector(0, -400);
     this.player = new Player(50, -this.dims.height / 4, this.ctx, playerAnims);
@@ -83,14 +83,6 @@ World.prototype.run = function () {
     ctx.strokeStyle = "red";
     ctx.stroke();
 
-
-
-
-    for (let i = 0; i < this.platforms.length; i++) {
-        this.platforms[i].run();
-    }
-    
-    
     //this.cnvLoc.x += this.levelSpeed;
     if (this.isPreviewing) {
         if (this.previewForward) {
@@ -111,10 +103,13 @@ World.prototype.run = function () {
         this.lerpDestination = this.player.loc.x - this.playerDisplacement;
     }
     this.cnvLoc.x = lerp(this.cnvLoc.x, this.lerpDestination, this.cameraStiffness);
-    
+    for (let i = 0; i < this.platforms.length; i++) {
+        this.platforms[i].run();
+    }
+
     this.ground.run();
-    
     this.player.run();  
+
     this.bg2.x = lerp(this.bg2.x, (this.player.loc.x / 2) - this.playerDisplacement, this.cameraStiffness);
     this.bg3.x = lerp(this.bg3.x, (this.player.loc.x / 1.5) - this.playerDisplacement, this.cameraStiffness);
 
@@ -127,7 +122,8 @@ World.prototype.run = function () {
 
 World.prototype.loadPlatforms = function (n) {
     for (let i = 0; i < n + 1; i++) {
-        this.platforms[i] = new Platform(Math.random() * this.dims.width - 0, Math.random() * this.dims.height - this.dims.height / 2, 50, 5, getRandomColor(), this.ctx);
+        //this.platforms[i] = new Platform(Math.random() * this.dims.width - 0, Math.random() * this.dims.height - this.dims.height / 2, 50, this.groundThickness, getRandomColor(), this.ctx);
+        this.platforms[i] = new Platform(60, -60, 50, this.groundThickness, getRandomColor(), this.ctx);
     }
 }
 

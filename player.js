@@ -20,6 +20,9 @@ function Player(x, y, ctx, playerAnims) {
     this.sizeMultiplier = 2;
     this.isColliding = 0;
     this.jumpPower = -4;
+    this.charDisplayDisplacement = 35;
+    this.hitboxWidth = 30;
+    this.hitboxheight = 63;
 }
 
 Player.prototype.update = function () {
@@ -76,6 +79,7 @@ Player.prototype.render = function () {
         } else {
             this.charCurr = 0;
         }
+        
     }
 
     this.currentImage = this.charAnimCurr[this.charCurr];
@@ -83,19 +87,32 @@ Player.prototype.render = function () {
     if (this.currentImage == null) {
         this.currentImage = this.charAnimCurr[0];
     }
-    ctx.drawImage(this.currentImage, this.loc.x, this.loc.y - this.currentImage.height * this.sizeMultiplier, this.currentImage.width * this.sizeMultiplier, this.currentImage.height * this.sizeMultiplier);
-
+    ctx.translate(0, -this.hitboxheight);
     ctx.beginPath();
-    ctx.rect(this.loc.x, this.loc.y, 5, 5);
+    ctx.rect(this.loc.x, this.loc.y, this.hitboxWidth, this.hitboxheight);
     ctx.fillStyle = getRandomColor();
     ctx.strokeStyle = getRandomColor();
     ctx.fill();
     ctx.stroke();
+    ctx.translate(-this.charDisplayDisplacement, this.hitboxheight);
+    ctx.drawImage(this.currentImage, this.loc.x, this.loc.y - this.currentImage.height * this.sizeMultiplier, this.currentImage.width * this.sizeMultiplier, this.currentImage.height * this.sizeMultiplier);
+}
+
+Player.prototype.CheckCollisions = function() {
+    for (let i = 0; i < world.platforms.length; i++) {
+        if (this.loc.y > world.platforms[i].loc.y && this.loc.y < world.platforms[i].loc.y) {
+            console.log("hi")
+        }
+        // if (this.loc.y > world.platforms[i].loc.y && this.loc.y < world.platforms[i].loc.y + world.platforms[i].height && this.loc.x > world.platforms[i].loc.x && this.loc.x < world.platforms[i].loc.x + world.platforms[i].width) {
+        //     console.log("hi")
+        // }
+    }
 }
 
 
 
 Player.prototype.run = function () {
     this.update();
+    this.CheckCollisions();
     this.render();
 }
