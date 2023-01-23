@@ -27,7 +27,7 @@ Player.prototype.update = function () {
         this.charAnimCurr = this.charRunAnim;
     } else if (this.vel.x > 0) {
         this.vel.x = lerp(this.vel.x, 0, this.friction);
-        this.charAnimCurr = this.charSlideAnim;
+        this.charAnimCurr = this.charIdleAnim;
     } 
     if (this.moving.left) {
         this.vel.x = lerp(this.vel.x, -this.maxVel.x, this.friction);

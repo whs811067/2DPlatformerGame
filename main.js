@@ -25,6 +25,7 @@ charIdle3.src = "assets/character/adventurer-idle-02.png";
 let charIdleImgs = [charIdle1, charIdle2, charIdle3];
 let charIdleIndex = 0;
 
+
 let charRun1 = new Image();
 let charRun2 = new Image();
 let charRun3 = new Image();
