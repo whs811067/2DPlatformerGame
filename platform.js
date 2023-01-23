@@ -12,7 +12,7 @@ Platform.prototype.checkCollisions = function () {
         //console.log("this.loc.x =  " + this.loc.x + "   this.loc.x other = " + endposx);
         world.player.isColliding = true;
     } else {
-        //world.player.isColliding = false;
+        world.player.isColliding = false;
     }
 }
 

@@ -19,6 +19,7 @@ function Player(x, y, ctx, playerAnims) {
     this.currentImage = this.charAnimCurr[this.charCurr];
     this.sizeMultiplier = 2;
     this.isColliding = 0;
+    this.jumpPower = -4;
 }
 
 Player.prototype.update = function () {
@@ -59,6 +60,11 @@ Player.prototype.update = function () {
 
     //apply velocity
     this.loc.add(this.vel);
+}
+
+Player.prototype.jump = function () {
+    this.loc.y = this.loc.y - 10;
+    this.vel.y = this.jumpPower;
 }
 
 Player.prototype.render = function () {
