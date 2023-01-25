@@ -48,9 +48,19 @@ charSlide2.src = "assets/character/adventurer-slide-01.png";
 let charSlideImgs = [charSlide1, charSlide2];
 let charSlideIndex = 2;
 
+let charJump1 = new Image();
+let charJump2 = new Image();
+let charJump3 = new Image();
+let charJump4 = new Image();
+charJump1.src = "assets/character/adventurer-jump-00.png";
+charJump2.src = "assets/character/adventurer-jump-01.png";
+charJump3.src = "assets/character/adventurer-jump-02.png";
+charJump4.src = "assets/character/adventurer-jump-03.png";
+let charJumpImgs = [charJump1, charJump2, charJump3, charJump4]
+let charJumpIndex = 3;
 
 
-let playerAnims = [charIdleImgs, charRunImgs, charSlideImgs];
+let playerAnims = [charIdleImgs, charRunImgs, charSlideImgs, charJumpImgs];
 
 //music
 //let backgroundMusic = new Audio('assets/scaryForest.mp3');
@@ -69,6 +79,11 @@ function init() {
 function animate() {
 
   world.run();
+  document.getElementById("CanvasLoc").innerHTML = "CanvasLoc: " + world.cnvLoc;
+  document.getElementById("PlayerLoc").innerHTML = "PlayerLoc: " + world.player.loc;
+  document.getElementById("PlayerHorizontal").innerHTML = "PlayerXVel: " + world.player.vel.x;
+  document.getElementById("PlayerVertical").innerHTML = "PlayerYVel: " + world.player.vel.y;
+  document.getElementById("Tick").innerHTML = "Tick: " + world.tick;
   requestAnimationFrame(animate);
 }
 

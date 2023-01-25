@@ -9,11 +9,14 @@ function Player(x, y, ctx, playerAnims) {
     this.moving = {
         right: false,
         left: false,
+        up: false,
+        down: false
     }
     this.friction = 0.02;
     this.charIdleAnim = [playerAnims[charIdleIndex][0], playerAnims[charIdleIndex][1], playerAnims[charIdleIndex][2]];
     this.charRunAnim = [playerAnims[charRunIndex][0], playerAnims[charRunIndex][1], playerAnims[charRunIndex][2], playerAnims[charRunIndex][3], playerAnims[charRunIndex][4], playerAnims[charRunIndex][5]];
     this.charSlideAnim = [playerAnims[charSlideIndex][0], playerAnims[charSlideIndex][1]];
+    this.charJumpAnim = [playerAnims[charJumpIndex][0], playerAnims[charJumpIndex][1], playerAnims[charJumpIndex][2], playerAnims[charJumpIndex][3]];
     this.charCurr = 0;
     this.charAnimCurr = this.charIdleAnim;
     this.currentImage = this.charAnimCurr[this.charCurr];
@@ -23,6 +26,8 @@ function Player(x, y, ctx, playerAnims) {
     this.charDisplayDisplacement = 35;
     this.hitboxWidth = 30;
     this.hitboxheight = 63;
+    this.jumpAnimTick = 0;
+    this.jumpAimTickIntveral = 30;
 }
 
 Player.prototype.update = function () {
@@ -41,6 +46,21 @@ Player.prototype.update = function () {
         }
     }
 
+
+    if (this.vel.y != 0 && this.vel.getDirection() > 0) {
+        this.moving.down = true;
+        this.moving.up = false;
+        this.charAnimCurr = this.charJumpAnim;
+    } else if (this.vel.y != 0 && this.vel.getDirection() < 0) {
+        this.moving.down = false;
+        this.moving.up = true;
+        this.charAnimCurr = this.charJumpAnim;
+    } else if (this.vel.y == 0 && this.vel.x == 0) {
+        this.charAnimCurr = this.charIdleAnim;
+        this.moving.up = false;
+        this.moving.down = false;
+    }
+
     if (this.vel.x <= 0.1 && this.vel.x >= 0.1 ) {
         console.log("eee")
         this.charAnimCurr = this.charIdleAnim;
@@ -54,7 +74,6 @@ Player.prototype.update = function () {
     }
 
     //apply gravity
-    //this.vel.y = lerp(this.vel.y, this.maxVel.y, airResistance);
     this.vel.add(this.acc);
     if (this.isColliding) {
         this.vel.y = 0;
@@ -68,19 +87,34 @@ Player.prototype.update = function () {
 Player.prototype.jump = function () {
     this.loc.y = this.loc.y - 10;
     this.vel.y = this.jumpPower;
+    this.jumpAnimTick = 0;
+    this.charCurr = 1;
 }
 
 Player.prototype.render = function () {
     let ctx = this.ctx;
-
-    if (world.tick % world.tickInterval == 0) {
-        if (this.charCurr < this.charAnimCurr.length - 1) {
-            this.charCurr++;
-        } else {
-            this.charCurr = 0;
+    if (this.moving.up) {
+        if (this.jumpAnimTick % this.jumpAimTickIntveral == 0) {
+            if (this.charCurr < this.charAnimCurr.length - 1) {
+                this.charCurr++;
+            } else {
+                this.charCurr = this.charAnimCurr.length - 1;
+            }
+        } 
+        this.jumpAnimTick++;
+    }  else if (this.moving.down){
+        this.jumpAnimTick = 0;
+        this.charCurr = 3;
+    } else {
+        if (world.tick % world.tickInterval == 0) {
+            if (this.charCurr < this.charAnimCurr.length - 1) {
+                this.charCurr++;
+            } else {
+                this.charCurr = 0;
+            }
         }
-        
     }
+    
 
     this.currentImage = this.charAnimCurr[this.charCurr];
 
@@ -100,12 +134,10 @@ Player.prototype.render = function () {
 
 Player.prototype.CheckCollisions = function() {
     for (let i = 0; i < world.platforms.length; i++) {
-        if (this.loc.y > world.platforms[i].loc.y && this.loc.y < world.platforms[i].loc.y) {
-            console.log("hi")
+        if (this.loc.y >= world.platforms[i].loc.y && this.loc.y < world.platforms[i].loc.y + world.platforms[i].height && (this.loc.x > world.platforms[i].loc.x || this.loc.x + this.hitboxWidth > world.platforms[i].loc.x) && (this.loc.x < world.platforms[i].loc.x + world.platforms[i].width)) {
+            this.loc.y = world.platforms[i].loc.y + 1;
+            this.vel.y = 0;
         }
-        // if (this.loc.y > world.platforms[i].loc.y && this.loc.y < world.platforms[i].loc.y + world.platforms[i].height && this.loc.x > world.platforms[i].loc.x && this.loc.x < world.platforms[i].loc.x + world.platforms[i].width) {
-        //     console.log("hi")
-        // }
     }
 }
 

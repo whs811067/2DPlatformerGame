@@ -6,7 +6,7 @@ function World() {
         left: 0,
         bottom: 0,
         right: 3000,
-        height: 800,
+        height: 400,
         width: 3000
     }
     //platforms and ground stuff
@@ -14,7 +14,6 @@ function World() {
 
     this.platforms = [];
     this.loadPlatforms(1);
-    this.ground = new Platform(0, -this.groundThickness, this.dims.width, 30, "Blue", this.ctx);
     this.cnvLoc = new JSVector(0, -400);
     this.player = new Player(50, -this.dims.height / 4, this.ctx, playerAnims);
     this.levelSpeed = 0.2;
@@ -44,13 +43,7 @@ function World() {
 
 World.prototype.run = function () {
     this.tick++;
-    try {
-        this.backgroundMusic.play();
-    }
-    catch {
-
-    }
-
+    this.backgroundMusic.play();
     this.ctx.clearRect(0, 0, this.cnv.width, this.cnv.height);
     this.ctx.save();
     this.ctx.translate(-this.cnvLoc.x, -this.cnvLoc.y);
@@ -106,8 +99,6 @@ World.prototype.run = function () {
     for (let i = 0; i < this.platforms.length; i++) {
         this.platforms[i].run();
     }
-
-    this.ground.run();
     this.player.run();  
 
     this.bg2.x = lerp(this.bg2.x, (this.player.loc.x / 2) - this.playerDisplacement, this.cameraStiffness);
@@ -121,10 +112,11 @@ World.prototype.run = function () {
 }
 
 World.prototype.loadPlatforms = function (n) {
-    for (let i = 0; i < n + 1; i++) {
+    for (let i = 0; i < n ; i++) {
         //this.platforms[i] = new Platform(Math.random() * this.dims.width - 0, Math.random() * this.dims.height - this.dims.height / 2, 50, this.groundThickness, getRandomColor(), this.ctx);
         this.platforms[i] = new Platform(60, -60, 50, this.groundThickness, getRandomColor(), this.ctx);
     }
+    this.platforms.push(new Platform(0, -this.groundThickness, this.dims.width, 30, "Blue", this.ctx));
 }
 
 World.prototype.previewLevel = function () {
