@@ -16,6 +16,14 @@ window.addEventListener("keydown", function (event) {
       //console.log("Left Key Down");
       world.player.moving.right = true;
       break;
+      case "KeyW":
+        //console.log("Left Key Down");
+        world.player.loc.y += 5;
+        break;
+      case "KeyS":
+        //console.log("Left Key Down");
+        world.player.loc.y -= 5;
+        break;
   }
 }, false);
 
@@ -45,6 +53,7 @@ window.addEventListener("keypress", function (event) {
     case "Space":
       world.player.jump();
       break;
+    
   }
 }, false);
 

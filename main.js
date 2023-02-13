@@ -13,6 +13,17 @@ background1.src = "assets/background1.png";
 background2.src = "assets/background2.png";
 background3.src = "assets/background3.png";
 
+let gameOverScreen = new Image();
+gameOverScreen.src = "assets/gameover.jpeg";
+
+let darkness = new Image();
+darkness.src = "assets/darkness.png";
+
+let heartBack = new Image();
+let heartFore = new Image();
+heartBack.src = "assets/health/health_bar_decoration.png";
+heartFore.src = "assets/health/health_bar.png";
+
 let platform = new Image();
 platform.src = "assets/platform.png"
 
@@ -48,9 +59,35 @@ charSlide2.src = "assets/character/adventurer-slide-01.png";
 let charSlideImgs = [charSlide1, charSlide2];
 let charSlideIndex = 2;
 
+let charJump1 = new Image();
+let charJump2 = new Image();
+let charJump3 = new Image();
+let charJump4 = new Image();
+charJump1.src = "assets/character/adventurer-jump-00.png";
+charJump2.src = "assets/character/adventurer-jump-01.png";
+charJump3.src = "assets/character/adventurer-jump-02.png";
+charJump4.src = "assets/character/adventurer-jump-03.png";
+let charJumpImgs = [charJump1, charJump2, charJump3, charJump4]
+let charJumpIndex = 3;
 
+let playerAnims = [charIdleImgs, charRunImgs, charSlideImgs, charJumpImgs];
 
-let playerAnims = [charIdleImgs, charRunImgs, charSlideImgs];
+let goblinRun1 = new Image();
+let goblinRun2 = new Image();
+let goblinRun3 = new Image();
+let goblinRun4 = new Image();
+let goblinRun5 = new Image();
+let goblinRun6 = new Image();
+goblinRun1.src = "assets/goblin/goblin-run-00.png";
+goblinRun2.src = "assets/goblin/goblin-run-01.png";
+goblinRun3.src = "assets/goblin/goblin-run-02.png";
+goblinRun4.src = "assets/goblin/goblin-run-03.png";
+goblinRun5.src = "assets/goblin/goblin-run-04.png";
+goblinRun6.src = "assets/goblin/goblin-run-05.png";
+let goblinRunImgs = [goblinRun1, goblinRun2, goblinRun3, goblinRun4, goblinRun5, goblinRun6];
+let goblinRunIndex = 0;
+
+let goblinAnims = [goblinRunImgs];
 
 //music
 //let backgroundMusic = new Audio('assets/scaryForest.mp3');
@@ -69,6 +106,14 @@ function init() {
 function animate() {
 
   world.run();
+  document.getElementById("CanvasLoc").innerHTML = "CanvasLoc: " + world.cnvLoc;
+  document.getElementById("PlayerLoc").innerHTML = "PlayerLoc: " + world.player.loc;
+  document.getElementById("PlayerHorizontal").innerHTML = "PlayerXVel: " + world.player.vel.x;
+  document.getElementById("PlayerVertical").innerHTML = "PlayerYVel: " + world.player.vel.y;
+  document.getElementById("Tick").innerHTML = "Tick: " + world.tick;
+  document.getElementById("JumpTick").innerHTML = "Jump Tick: " + world.player.jumpAnimTick;
+  document.getElementById("CharCurr").innerHTML = "Current Anim Frame: " + world.player.charCurr;
+  document.getElementById("CurrentAnim").innerHTML = "Current Anim: " + world.player.charAnimCurr;
   requestAnimationFrame(animate);
 }
 
