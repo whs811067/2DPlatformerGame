@@ -1,6 +1,7 @@
 function World() {
-    this.cnv = document.getElementById('cnv');
-    this.ctx = this.cnv.getContext('2d');
+    this.cnv = document.getElementById('cnv'); //canvas
+    this.ctx = this.cnv.getContext('2d'); //context
+    //dimensions
     this.dims = {
         top: -400,
         left: 0,
@@ -10,9 +11,8 @@ function World() {
         width: 3000
     }
     //platforms and ground stuff
-    this.groundThickness = 10;
-
-    this.platforms = [];
+    this.groundThickness = 10; //ground thickness
+    this.platforms = []; //platforms array
     this.loadPlatforms(1);
     this.ground = new Platform(0, -this.groundThickness, this.dims.width, 30, "Blue", this.ctx);
     this.cnvLoc = new JSVector(0, -400);
